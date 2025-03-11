@@ -416,6 +416,8 @@ const AudioRecorder = () => {
   const [summary, setSummary] = useState('');
   const [speakerCount, setSpeakerCount] = useState(0);
   const [structuredOutput, setStructure] = useState('');
+
+  
   
   // New states for patient info
   const [patientDetails, setPatientDetails] = useState(null);

@@ -9,12 +9,10 @@ services:
       - "4999:4999"
     environment:
       - NODE_ENV=production
-      - MONGO_URI=${MONGO_URI}
+      - MONGO_URI=mongodb+srv://subhash:12@cluster0.h1e1a.mongodb.net/MediScribe?retryWrites=true&w=majority&appName=Cluster0
     networks:
       - app-network
-    command: sh -c "npm start"
     
-
   authentication:
     build:
       context: ./Services/Authentication/
@@ -23,14 +21,17 @@ services:
       - "5002:5002"
     depends_on:
       - database
-    environment:
-      - NODE_ENV=production
-      - MONGO_URI=${MONGO_URI}
-    networks:
-      - app-network
     command: sh -c "./wait-for-it.sh database:4999 -- npm start"
     
-
+  ai:
+    build:
+      context: ./Services/AI/
+      dockerfile: Dockerfile
+    ports:
+      - "5006:5006"
+    depends_on:
+      - database
+    
   patient:
     build:
       context: ./Services/Patient/
@@ -39,12 +40,7 @@ services:
       - "5004:5004"
     depends_on:
       - database
-    environment:
-      - NODE_ENV=production
-      - MONGO_URI=${MONGO_URI}
-    networks:
-      - app-network
-    command: sh -c "./wait-for-it.sh database:4999 -- npm start"
+    
     
 
   doctor:
@@ -55,12 +51,7 @@ services:
       - "5003:5003"
     depends_on:
       - database
-    environment:
-      - NODE_ENV=production
-      - MONGO_URI=${MONGO_URI}
-    networks:
-      - app-network
-    command: sh -c "./wait-for-it.sh database:4999 -- npm start"
+    
     
 
   admin:
@@ -71,14 +62,7 @@ services:
       - "5000:5000"
     depends_on:
       - database
-    environment:
-      - NODE_ENV=production
-      - MONGO_URI=${MONGO_URI}
-    networks:
-      - app-network
-    command: sh -c "./wait-for-it.sh database:4999 -- npm start"
     
-
 # # Define a shared network for services
 networks:
   app-network:
