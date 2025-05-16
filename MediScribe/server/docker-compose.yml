@@ -1,17 +1,6 @@
 
 services:
   # Define the service for the database
-  database:
-    build:
-      context: ./Services/Database/
-      dockerfile: Dockerfile
-    ports:
-      - "4999:4999"
-    environment:
-      - NODE_ENV=production
-      - MONGO_URI=mongodb+srv://subhash:12@cluster0.h1e1a.mongodb.net/MediScribe?retryWrites=true&w=majority&appName=Cluster0
-    networks:
-      - app-network
     
   authentication:
     build:
@@ -19,9 +8,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5002:5002"
-    depends_on:
-      - database
-    command: sh -c "./wait-for-it.sh database:4999 -- npm start"
+  
     
   ai:
     build:
@@ -29,8 +16,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5006:5006"
-    depends_on:
-      - database
+   
     
   patient:
     build:
@@ -38,8 +24,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5004:5004"
-    depends_on:
-      - database
+   
     
     
 
@@ -49,8 +34,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5003:5003"
-    depends_on:
-      - database
+
     
     
 
@@ -60,8 +44,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5000:5000"
-    depends_on:
-      - database
+
     
 # # Define a shared network for services
 networks:
