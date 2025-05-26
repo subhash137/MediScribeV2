@@ -5,7 +5,7 @@ const LayoutDoctor = () => {
   return (
     <div>
       <DoctorNavbar />
-      <div className='h-[100vh]'>
+      <div>
         <Outlet />
       </div>
       <Footer />
